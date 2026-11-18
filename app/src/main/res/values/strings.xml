@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Focus Wall</string>
+    <string name="accessibility_description">Shows a pause screen when a chosen distracting app opens.</string>
+</resources>
