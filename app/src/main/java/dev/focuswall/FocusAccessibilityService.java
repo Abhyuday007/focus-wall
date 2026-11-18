@@ -8,15 +8,16 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import java.util.List;
 
-/** Applies the budget only when Instagram's native Reels tab is selected. */
+/** Applies the budget only in native Instagram Reels and YouTube Shorts. */
 public class FocusAccessibilityService extends AccessibilityService {
     private static final String INSTAGRAM = "com.instagram.android";
     private static final String YOUTUBE = "com.google.android.youtube";
     private static final String INSTAGRAM_REELS_TAB = INSTAGRAM + ":id/clips_tab";
-    private static final String YOUTUBE_SHORTS_TAB = YOUTUBE + ":id/shorts_tab";
+    private static final String YOUTUBE_SHORTS_ROOT = YOUTUBE + ":id/reel_watch_fragment_root";
 
     private final Handler handler = new Handler();
     private boolean reelsFeedActive;
+    private boolean youtubeShortsActive;
     private boolean sharedReelActive;
     private boolean inspectionQueued;
     private long lastLimitCard;
@@ -66,16 +67,22 @@ public class FocusAccessibilityService extends AccessibilityService {
             AccessibilityNodeInfo root = getRootInActiveWindow();
             if (root == null) return;
 
-            boolean reelsSelected = isSelected(root, INSTAGRAM_REELS_TAB)
-                    || isSelected(root, YOUTUBE_SHORTS_TAB);
-            if (reelsSelected) {
+            boolean reelsSelected = isSelected(root, INSTAGRAM_REELS_TAB);
+            boolean youtubeShortsVisible = isPresent(root, YOUTUBE_SHORTS_ROOT);
+            if (reelsSelected || youtubeShortsVisible) {
                 reelsFeedActive = true;
+                youtubeShortsActive = youtubeShortsVisible;
                 if (DailyBudget.expired(FocusAccessibilityService.this)) {
                     DailyBudget.stopWatching(FocusAccessibilityService.this);
-                    showLimitCard();
+                    showLimitCard(youtubeShortsVisible);
                 } else {
                     startFeedTimer();
                 }
+                return;
+            }
+
+            if (belongsTo(root, YOUTUBE)) {
+                stopFeedTimer();
                 return;
             }
 
@@ -99,6 +106,15 @@ public class FocusAccessibilityService extends AccessibilityService {
         return false;
     }
 
+    private boolean isPresent(AccessibilityNodeInfo root, String resourceId) {
+        List<AccessibilityNodeInfo> nodes = root.findAccessibilityNodeInfosByViewId(resourceId);
+        return nodes != null && !nodes.isEmpty();
+    }
+
+    private boolean belongsTo(AccessibilityNodeInfo node, String packageName) {
+        return node.getPackageName() != null && packageName.contentEquals(node.getPackageName());
+    }
+
     private void startFeedTimer() {
         sharedReelActive = false;
         DailyBudget.beginWatching(this);
@@ -112,9 +128,11 @@ public class FocusAccessibilityService extends AccessibilityService {
             if (DailyBudget.expired(FocusAccessibilityService.this)) {
                 DailyBudget.stopWatching(FocusAccessibilityService.this);
                 boolean wasSharedReel = sharedReelActive;
+                boolean wasYouTubeShorts = youtubeShortsActive;
                 reelsFeedActive = false;
                 sharedReelActive = false;
-                if (wasSharedReel) showSharedReelCard(); else showLimitCard();
+                youtubeShortsActive = false;
+                if (wasSharedReel) showSharedReelCard(); else showLimitCard(wasYouTubeShorts);
                 return;
             }
             handler.postDelayed(this, 1_000);
@@ -130,25 +148,27 @@ public class FocusAccessibilityService extends AccessibilityService {
 
     private void stopFeedTimer() {
         reelsFeedActive = false;
+        youtubeShortsActive = false;
         sharedReelActive = false;
         handler.removeCallbacks(tick);
         DailyBudget.stopWatching(this);
     }
 
-    private void showLimitCard() {
-        showCard(false);
+    private void showLimitCard(boolean youtubeShorts) {
+        showCard(false, youtubeShorts);
     }
 
     private void showSharedReelCard() {
-        showCard(true);
+        showCard(true, false);
     }
 
-    private void showCard(boolean sharedReel) {
+    private void showCard(boolean sharedReel, boolean youtubeShorts) {
         long now = System.currentTimeMillis();
         if (now - lastLimitCard < 2_000) return;
         lastLimitCard = now;
         Intent limit = new Intent(this, ReelsLimitActivity.class);
         limit.putExtra("shared_reel", sharedReel);
+        limit.putExtra("youtube_shorts", youtubeShorts);
         limit.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(limit);
     }

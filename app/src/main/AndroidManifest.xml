@@ -7,8 +7,8 @@
     <application
         android:allowBackup="false"
         android:label="Focus Wall"
-        android:icon="@drawable/focus_wall_icon"
-        android:roundIcon="@drawable/focus_wall_icon"
+        android:icon="@mipmap/focus_wall_icon"
+        android:roundIcon="@mipmap/focus_wall_icon"
         android:theme="@style/AppTheme"
         android:fullBackupContent="false"
         android:dataExtractionRules="@xml/data_extraction_rules"

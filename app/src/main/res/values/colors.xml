@@ -1,7 +1,12 @@
 <resources>
-    <color name="ink">#111827</color>
-    <color name="paper">#F8FAFC</color>
-    <color name="mint">#0F766E</color>
-    <color name="mist">#D1FAE5</color>
+    <color name="ink">#14201F</color>
+    <color name="paper">#F5F8F7</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_tint">#E5F4EF</color>
+    <color name="mint">#0D7569</color>
+    <color name="mint_deep">#07584F</color>
+    <color name="on_mint">#FFFFFF</color>
+    <color name="secondary_surface">#DDF1EA</color>
+    <color name="secondary_ink">#07584F</color>
 </resources>
 

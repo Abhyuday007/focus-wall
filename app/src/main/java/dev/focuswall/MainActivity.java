@@ -2,7 +2,6 @@ package dev.focuswall;
 
 import android.content.ComponentName;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,7 +26,7 @@ public class MainActivity extends android.app.Activity {
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
         ScrollView scroll = new ScrollView(this);
-        LinearLayout page = new LinearLayout(this); page.setOrientation(LinearLayout.VERTICAL); page.setPadding(dp(24), dp(34), dp(24), dp(28)); page.setBackgroundColor(Color.rgb(247, 248, 252)); scroll.addView(page);
+        LinearLayout page = new LinearLayout(this); page.setOrientation(LinearLayout.VERTICAL); page.setPadding(dp(24), dp(34), dp(24), dp(28)); page.setBackgroundColor(getColor(R.color.paper)); scroll.addView(page);
         page.addView(label("FOCUS WALL")); page.addView(gap(12)); page.addView(title("Quiet social.\nStill yours.")); page.addView(gap(12)); page.addView(copy("Instagram stays native. Focus Wall only manages the time you intentionally choose for Reels and Shorts.")); page.addView(gap(24));
         LinearLayout budget = card(); budget.addView(label("DAILY REELS BUDGET")); budget.addView(gap(9)); budgetLabel = title(""); budgetLabel.setTextSize(22); budget.addView(budgetLabel);
         slider = new SeekBar(this); slider.setMax(6); slider.setProgress(DailyBudget.minutes(this) / 10); slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() { public void onProgressChanged(SeekBar bar, int progress, boolean user) { if (user) { DailyBudget.setMinutes(MainActivity.this, progress * 10); renderState(); } } public void onStartTrackingTouch(SeekBar bar) {} public void onStopTrackingTouch(SeekBar bar) {} }); budget.addView(slider); budget.addView(copy("Choose 0, 10, 20, 30, 40, 50, or 60 minutes before arming. The choice locks until tomorrow.")); page.addView(budget); page.addView(gap(12));
@@ -48,9 +47,9 @@ public class MainActivity extends android.app.Activity {
     private String format(long millis) { long seconds = millis / 1000; return String.format(java.util.Locale.US, "%d:%02d", seconds / 60, seconds % 60); }
     private void openNativeApp(String packageName) { Intent intent = getPackageManager().getLaunchIntentForPackage(packageName); if (intent != null) startActivity(intent); }
     private boolean isAccessibilityEnabled() { String enabled = Settings.Secure.getString(getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES); return enabled != null && enabled.contains(new ComponentName(this, FocusAccessibilityService.class).flattenToString()); }
-    private LinearLayout card() { LinearLayout card = new LinearLayout(this); card.setOrientation(LinearLayout.VERTICAL); card.setPadding(dp(18), dp(18), dp(18), dp(18)); GradientDrawable background = new GradientDrawable(GradientDrawable.Orientation.TL_BR, new int[]{Color.WHITE, Color.rgb(232, 247, 243)}); background.setCornerRadius(dp(24)); card.setBackground(background); return card; }
-    private Button action(String value) { return button(value, Color.rgb(15, 118, 110), Color.WHITE); }
-    private Button secondary(String value) { return button(value, Color.rgb(225, 244, 240), Color.rgb(15, 80, 75)); }
+    private LinearLayout card() { LinearLayout card = new LinearLayout(this); card.setOrientation(LinearLayout.VERTICAL); card.setPadding(dp(18), dp(18), dp(18), dp(18)); GradientDrawable background = new GradientDrawable(GradientDrawable.Orientation.TL_BR, new int[]{getColor(R.color.surface), getColor(R.color.surface_tint)}); background.setCornerRadius(dp(24)); card.setBackground(background); return card; }
+    private Button action(String value) { return button(value, getColor(R.color.mint_deep), getColor(R.color.on_mint)); }
+    private Button secondary(String value) { return button(value, getColor(R.color.secondary_surface), getColor(R.color.secondary_ink)); }
     private Button button(String value, int backgroundColor, int textColor) { Button button = new Button(this); button.setText(value); button.setAllCaps(false); button.setTextSize(16); button.setTextColor(textColor); button.setGravity(Gravity.CENTER); GradientDrawable background = new GradientDrawable(); background.setColor(backgroundColor); background.setCornerRadius(dp(18)); button.setBackground(background); button.setLayoutParams(new LinearLayout.LayoutParams(-1, dp(54))); return button; }
     private TextView label(String value) { TextView view = copy(value); view.setTextSize(12); view.setLetterSpacing(.13f); view.setTextColor(getColor(R.color.mint)); return view; }
     private TextView title(String value) { TextView view = copy(value); view.setTextSize(34); view.setTextColor(getColor(R.color.ink)); return view; }
