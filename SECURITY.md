@@ -1,9 +1,11 @@
 # Security policy
 
-Focus Wall is intentionally local-only. It has no network permission, account,
-analytics SDK, cloud sync, external-storage access, or database of Instagram
-content. The only persistent data is its private Android preferences file for
-the local daily time budget.
+Focus Wall is local-first. Its timer and settings live in private Android
+preferences, with Android backup and device-transfer extraction disabled. The
+app has no advertising, analytics, external-storage access, cloud sync, or
+database of Instagram / YouTube content. Optional Firebase Google sign-in uses
+network access only when a user explicitly starts sign-in; it does not upload
+the daily budget or social-media data.
 
 ## Release checklist
 
@@ -12,6 +14,8 @@ the local daily time budget.
 - Verify `./gradlew :app:lintRelease :app:assembleRelease` succeeds.
 - Install only the resulting signed APK from a release you control.
 - Review Android's Accessibility permission prompt before enabling the app.
+- Keep `google-services.json` out of version control. It is project
+  configuration, not a substitute for Firebase Auth provider setup or rules.
 
 ## Reporting
 
