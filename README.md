@@ -2,7 +2,7 @@
 
 <p align="center">
   <strong>Stay connected. Scroll with intention.</strong><br />
-  A local-first Android accessibility utility for putting a daily boundary around native Reels and Shorts—without replacing Instagram, asking for your login, or sending your data anywhere.
+  A local-first Android accessibility utility for putting a daily boundary around native Reels and Shorts—without replacing Instagram or asking for a social-media login.
 </p>
 
 <p align="center">
@@ -46,7 +46,8 @@ When time is up, Focus Wall shows a clear limit card. It never performs repeated
 
 ## Privacy & security
 
-- **Local only.** No network permission, accounts, analytics SDKs, cloud sync, or WebView.
+- **Local-first.** The blocker, timer, and daily budget stay on-device. Google sign-in is optional and is used only for a future portable identity; cloud backup is not implemented.
+- **No ads or analytics.** Focus Wall contains no advertising or analytics SDKs, and does not read or write Instagram or YouTube data.
 - **No Instagram data writes.** Focus Wall does not have external-storage access and does not alter Instagram data.
 - **Private state.** The app persists only its own small timer preference file; backups and device-transfer extraction are disabled.
 - **Tight Android surface.** The accessibility service and limit activity are non-exported. The launcher is the only public component.
@@ -60,6 +61,8 @@ Read the full [security policy](SECURITY.md) before publishing a build.
 ./gradlew :app:assembleDebug
 ./gradlew :app:installDebug
 ```
+
+Google sign-in is optional. A public clone builds without Firebase configuration. To enable it for your own Firebase project, place an owner-specific `google-services.json` in `app/`, enable Firebase Authentication's Google provider, and register the debug and release SHA-1 fingerprints. The config file is intentionally Git-ignored.
 
 For a public release:
 

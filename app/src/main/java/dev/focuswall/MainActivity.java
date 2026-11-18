@@ -25,6 +25,11 @@ public class MainActivity extends android.app.Activity {
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
+        if (!OnboardingActivity.isComplete(this) && !DailyBudget.isArmed(this)) {
+            startActivity(new Intent(this, OnboardingActivity.class));
+            finish();
+            return;
+        }
         ScrollView scroll = new ScrollView(this);
         LinearLayout page = new LinearLayout(this); page.setOrientation(LinearLayout.VERTICAL); page.setPadding(dp(24), dp(34), dp(24), dp(28)); page.setBackgroundColor(getColor(R.color.paper)); scroll.addView(page);
         page.addView(label("FOCUS WALL")); page.addView(gap(12)); page.addView(title("Quiet social.\nStill yours.")); page.addView(gap(12)); page.addView(copy("Instagram stays native. Focus Wall only manages the time you intentionally choose for Reels and Shorts.")); page.addView(gap(24));
@@ -33,6 +38,8 @@ public class MainActivity extends android.app.Activity {
         LinearLayout guardrail = card(); guardrail.addView(label("TODAY")); guardrail.addView(gap(8)); remainingLabel = title(""); remainingLabel.setTextSize(22); guardrail.addView(remainingLabel); guardrail.addView(gap(8)); status = copy(""); guardrail.addView(status); page.addView(guardrail); page.addView(gap(20));
         start = action("Arm daily reel budget"); start.setOnClickListener(v -> { DailyBudget.start(this); renderState(); }); page.addView(start); page.addView(gap(10));
         Button settings = secondary("Accessibility settings"); settings.setOnClickListener(v -> startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))); page.addView(settings); page.addView(gap(18)); page.addView(copy("The timer only counts after you intentionally enter Instagram Reels or YouTube Shorts. Stories, DMs, the main feed, shared reels, and time away from Instagram do not use your budget."));
+        page.addView(gap(18)); LinearLayout account = card(); account.addView(label("ACCOUNT & BACKUP")); account.addView(gap(8)); account.addView(copy("Using Focus Wall locally")); account.addView(gap(12)); Button manageAccount = secondary("Account & backup"); manageAccount.setOnClickListener(v -> startActivity(new Intent(this, AccountActivity.class))); account.addView(manageAccount); page.addView(account); page.addView(gap(10));
+        Button previewSetup = secondary("Preview setup experience"); previewSetup.setOnClickListener(v -> startActivity(OnboardingActivity.previewIntent(this))); page.addView(previewSetup);
         page.setAlpha(0f); page.setTranslationY(dp(16)); page.animate().alpha(1f).translationY(0).setDuration(480).start(); setContentView(scroll);
     }
     @Override protected void onResume() { super.onResume(); handler.post(refresh); }
