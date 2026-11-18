@@ -19,9 +19,11 @@ final class DailyBudget {
         int value = prefs(context).getInt(MINUTES, 10);
         return Math.max(MIN_BUDGET_MINUTES, Math.min(MAX_BUDGET_MINUTES, value));
     }
-    static void setMinutes(Context context, int minutes) {
+    static boolean setMinutes(Context context, int minutes) {
         resetIfNeeded(context);
+        if (prefs(context).getBoolean(ARMED, false)) return false;
         prefs(context).edit().putInt(MINUTES, Math.max(MIN_BUDGET_MINUTES, Math.min(MAX_BUDGET_MINUTES, minutes))).apply();
+        return true;
     }
     static void start(Context context) { resetIfNeeded(context); prefs(context).edit().putBoolean(ARMED, true).apply(); }
     static boolean isArmed(Context context) { resetIfNeeded(context); return prefs(context).getBoolean(ARMED, false); }

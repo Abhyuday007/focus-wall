@@ -19,6 +19,8 @@ public class MainActivity extends android.app.Activity {
     private TextView status;
     private TextView budgetLabel;
     private TextView remainingLabel;
+    private SeekBar slider;
+    private Button start;
     private final Handler handler = new Handler();
     private final Runnable refresh = new Runnable() { @Override public void run() { renderState(); handler.postDelayed(this, 1_000); } };
 
@@ -28,9 +30,9 @@ public class MainActivity extends android.app.Activity {
         LinearLayout page = new LinearLayout(this); page.setOrientation(LinearLayout.VERTICAL); page.setPadding(dp(24), dp(34), dp(24), dp(28)); page.setBackgroundColor(Color.rgb(247, 248, 252)); scroll.addView(page);
         page.addView(label("FOCUS WALL")); page.addView(gap(12)); page.addView(title("Quiet social.\nStill yours.")); page.addView(gap(12)); page.addView(copy("Instagram stays native. Focus Wall only manages the time you intentionally choose for Reels and Shorts.")); page.addView(gap(24));
         LinearLayout budget = card(); budget.addView(label("DAILY REELS BUDGET")); budget.addView(gap(9)); budgetLabel = title(""); budgetLabel.setTextSize(22); budget.addView(budgetLabel);
-        SeekBar slider = new SeekBar(this); slider.setMax(6); slider.setProgress(DailyBudget.minutes(this) / 10); slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() { public void onProgressChanged(SeekBar bar, int progress, boolean user) { if (user) { DailyBudget.setMinutes(MainActivity.this, progress * 10); renderState(); } } public void onStartTrackingTouch(SeekBar bar) {} public void onStopTrackingTouch(SeekBar bar) {} }); budget.addView(slider); budget.addView(copy("Choose 0, 10, 20, 30, 40, 50, or 60 minutes. It resets every day.")); page.addView(budget); page.addView(gap(12));
+        slider = new SeekBar(this); slider.setMax(6); slider.setProgress(DailyBudget.minutes(this) / 10); slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() { public void onProgressChanged(SeekBar bar, int progress, boolean user) { if (user) { DailyBudget.setMinutes(MainActivity.this, progress * 10); renderState(); } } public void onStartTrackingTouch(SeekBar bar) {} public void onStopTrackingTouch(SeekBar bar) {} }); budget.addView(slider); budget.addView(copy("Choose 0, 10, 20, 30, 40, 50, or 60 minutes before arming. The choice locks until tomorrow.")); page.addView(budget); page.addView(gap(12));
         LinearLayout guardrail = card(); guardrail.addView(label("TODAY")); guardrail.addView(gap(8)); remainingLabel = title(""); remainingLabel.setTextSize(22); guardrail.addView(remainingLabel); guardrail.addView(gap(8)); status = copy(""); guardrail.addView(status); page.addView(guardrail); page.addView(gap(20));
-        Button start = action("Arm daily reel budget"); start.setOnClickListener(v -> { DailyBudget.start(this); renderState(); }); page.addView(start); page.addView(gap(10));
+        start = action("Arm daily reel budget"); start.setOnClickListener(v -> { DailyBudget.start(this); renderState(); }); page.addView(start); page.addView(gap(10));
         Button settings = secondary("Accessibility settings"); settings.setOnClickListener(v -> startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))); page.addView(settings); page.addView(gap(18)); page.addView(copy("The timer only counts after you intentionally enter Instagram Reels or YouTube Shorts. Stories, DMs, the main feed, shared reels, and time away from Instagram do not use your budget."));
         page.setAlpha(0f); page.setTranslationY(dp(16)); page.animate().alpha(1f).translationY(0).setDuration(480).start(); setContentView(scroll);
     }
@@ -38,7 +40,10 @@ public class MainActivity extends android.app.Activity {
     @Override protected void onPause() { super.onPause(); handler.removeCallbacks(refresh); }
     private void renderState() {
         int minutes = DailyBudget.minutes(this); long remaining = DailyBudget.remainingMillis(this); budgetLabel.setText(minutes + " minutes per day"); remainingLabel.setText(format(remaining) + " left today");
-        boolean enabled = isAccessibilityEnabled(); status.setText(!enabled ? "Turn on the local Accessibility permission to show the limit card." : DailyBudget.isArmed(this) ? "Armed — time starts only when you enter Reels or Shorts." : "Choose a budget, then arm it when you are ready."); status.setTextColor(getColor(enabled ? R.color.mint : R.color.ink));
+        boolean enabled = isAccessibilityEnabled(); boolean armed = DailyBudget.isArmed(this);
+        slider.setEnabled(!armed); slider.setAlpha(armed ? .55f : 1f); slider.setProgress(minutes / 10);
+        start.setEnabled(!armed); start.setAlpha(armed ? .55f : 1f); start.setText(armed ? "Daily budget locked until tomorrow" : "Arm daily reel budget");
+        status.setText(!enabled ? "Turn on the local Accessibility permission to show the limit card." : armed ? "Armed and locked — time starts only when you enter Reels or Shorts." : "Choose a budget, then arm it when you are ready."); status.setTextColor(getColor(enabled ? R.color.mint : R.color.ink));
     }
     private String format(long millis) { long seconds = millis / 1000; return String.format(java.util.Locale.US, "%d:%02d", seconds / 60, seconds % 60); }
     private void openNativeApp(String packageName) { Intent intent = getPackageManager().getLaunchIntentForPackage(packageName); if (intent != null) startActivity(intent); }

@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="assets/focus-wall-demo.gif" alt="Animated walkthrough of Focus Wall: connected use, a Reels budget, then the daily limit" width="360" />
-</p>
-
 <h1 align="center">Focus Wall</h1>
 
 <p align="center">
@@ -16,7 +12,7 @@
   <a href="SECURITY.md">Security policy</a>
 </p>
 
-> **Preview:** [watch the MP4 walkthrough](assets/focus-wall-demo.mp4). The animation is synthetic; it contains no account, DM, Story, or other personal content.
+> **Demo policy:** This repository will use a real, privacy-safe device recording for its product demo. It will show only Focus Wall screens—never an account, DM, Story, or other personal content.
 
 ## The idea
 
