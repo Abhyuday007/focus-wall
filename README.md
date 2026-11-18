@@ -64,10 +64,10 @@ Read the full [security policy](SECURITY.md) before publishing a build.
 For a public release:
 
 ```bash
-./gradlew :app:lintRelease :app:assembleRelease
+./scripts/build-release.sh
 ```
 
-The generated release APK is unsigned by design. Sign it with a key that stays on your own machine—never commit a `.jks`, `.keystore`, `local.properties`, or signing password.
+The release script retrieves the locally held signing password from the macOS Keychain and produces a signed APK. Never commit a `.jks`, `.keystore`, `local.properties`, or signing password.
 
 ## Scope
 
