@@ -4,18 +4,31 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.window.OnBackInvokedCallback;
+import android.window.OnBackInvokedDispatcher;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ReelsLimitActivity extends Activity {
+    private LimitExitPolicy.Destination safeDestination;
+    private OnBackInvokedCallback backCallback;
+
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
         boolean sharedReel = getIntent().getBooleanExtra("shared_reel", false);
         boolean youtubeShorts = getIntent().getBooleanExtra("youtube_shorts", false);
+        safeDestination = LimitExitPolicy.destination(youtubeShorts);
+        setFinishOnTouchOutside(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            backCallback = this::returnToSafeSurface;
+            getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
+                    OnBackInvokedDispatcher.PRIORITY_DEFAULT, backCallback);
+        }
         LinearLayout page = new LinearLayout(this); page.setOrientation(LinearLayout.VERTICAL); page.setGravity(Gravity.CENTER); page.setPadding(dp(28), dp(28), dp(28), dp(28)); page.setBackgroundColor(getColor(R.color.paper));
         LinearLayout card = new LinearLayout(this); card.setOrientation(LinearLayout.VERTICAL); card.setPadding(dp(24), dp(26), dp(24), dp(24));
         GradientDrawable panel = new GradientDrawable(GradientDrawable.Orientation.TL_BR, new int[]{getColor(R.color.surface), getColor(R.color.surface_tint)}); panel.setCornerRadius(dp(28)); card.setBackground(panel);
@@ -32,10 +45,32 @@ public class ReelsLimitActivity extends Activity {
                 : "Stories, DMs, notifications, posts, and story creation are still open. Thank you for protecting your attention.";
         TextView heading = text(headingText, 28, getColor(R.color.ink));
         TextView message = text(messageText, 16, getColor(R.color.ink));
-        Button close = new Button(this); close.setText(sharedReel ? "Back to Instagram home" : youtubeShorts ? "Go to YouTube Home" : "Got it"); close.setAllCaps(false); close.setTextSize(16); close.setTextColor(getColor(R.color.on_mint)); GradientDrawable button = new GradientDrawable(); button.setColor(getColor(R.color.mint_deep)); button.setCornerRadius(dp(18)); close.setBackground(button); close.setOnClickListener(v -> { if (sharedReel) openInstagramHome(); else if (youtubeShorts) openYouTubeHome(); else finish(); });
-        card.addView(eyebrow); card.addView(gap(12)); card.addView(heading); card.addView(gap(14)); card.addView(message); card.addView(gap(22)); card.addView(close, new LinearLayout.LayoutParams(-1, dp(54)));
+        Button close = new Button(this); close.setText(LimitExitPolicy.buttonLabel(youtubeShorts)); close.setAllCaps(false); close.setTextSize(16); close.setTextColor(getColor(R.color.on_mint)); GradientDrawable button = new GradientDrawable(); button.setColor(getColor(R.color.mint_deep)); button.setCornerRadius(dp(18)); close.setBackground(button); close.setOnClickListener(v -> returnToSafeSurface());
+        card.addView(eyebrow); card.addView(gap(12)); card.addView(heading); card.addView(gap(14)); card.addView(message); card.addView(gap(22));
+        if (!youtubeShorts) {
+            Button search = new Button(this); search.setText("Search people"); search.setAllCaps(false); search.setTextSize(16); search.setTextColor(getColor(R.color.ink)); GradientDrawable searchButton = new GradientDrawable(); searchButton.setColor(getColor(R.color.surface)); searchButton.setStroke(dp(1), getColor(R.color.mint)); searchButton.setCornerRadius(dp(18)); search.setBackground(searchButton); search.setOnClickListener(v -> openInstagramSearch());
+            card.addView(search, new LinearLayout.LayoutParams(-1, dp(54)));
+            card.addView(gap(10));
+        }
+        card.addView(close, new LinearLayout.LayoutParams(-1, dp(54)));
         page.addView(card, new LinearLayout.LayoutParams(-1, -2));
         setContentView(page);
+    }
+
+    @Override @SuppressWarnings("deprecation") public void onBackPressed() {
+        returnToSafeSurface();
+    }
+
+    @Override protected void onDestroy() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && backCallback != null) {
+            getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback(backCallback);
+        }
+        super.onDestroy();
+    }
+
+    private void returnToSafeSurface() {
+        if (safeDestination == LimitExitPolicy.Destination.YOUTUBE_HOME) openYouTubeHome();
+        else openInstagramHome();
     }
     private TextView text(String value, int size, int color) { TextView view = new TextView(this); view.setText(value); view.setTextSize(size); view.setTextColor(color); view.setLineSpacing(dp(5), 1f); return view; }
     private void openInstagramHome() {
@@ -45,7 +80,16 @@ public class ReelsLimitActivity extends Activity {
         if (home.resolveActivity(getPackageManager()) != null) {
             startActivity(home);
             finish();
-        }
+        } else finishAndRemoveTask();
+    }
+    private void openInstagramSearch() {
+        Intent search = new Intent(Intent.ACTION_VIEW, Uri.parse("instagram://search"));
+        search.setPackage("com.instagram.android");
+        search.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if (search.resolveActivity(getPackageManager()) != null) {
+            startActivity(search);
+            finish();
+        } else openInstagramHome();
     }
     private void openYouTubeHome() {
         Intent home = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/"));
@@ -54,7 +98,7 @@ public class ReelsLimitActivity extends Activity {
         if (home.resolveActivity(getPackageManager()) != null) {
             startActivity(home);
             finish();
-        }
+        } else finishAndRemoveTask();
     }
     private View gap(int value) { View view = new View(this); view.setLayoutParams(new LinearLayout.LayoutParams(1, dp(value))); return view; }
     private int dp(int value) { return (int) (value * getResources().getDisplayMetrics().density); }
