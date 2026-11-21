@@ -26,7 +26,7 @@ public class FocusAccessibilityService extends AccessibilityService {
     private enum InstagramOrigin { HOME, DIRECT, SEARCH, PROFILE, UNKNOWN }
 
     @Override public void onAccessibilityEvent(AccessibilityEvent event) {
-        if (!DailyBudget.isArmed(this)) {
+        if (!AccessibilityConsentPolicy.shouldProcess(DisclosureConsent.isGranted(this), DailyBudget.isArmed(this))) {
             stopForOutsideTarget();
             return;
         }

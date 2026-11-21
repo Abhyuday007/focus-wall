@@ -15,7 +15,7 @@
 
 </div>
 
-> **Status:** v1.3.1 personal beta · targets Android 16 (API 36) and is tested on Android 16 / Samsung SM-S711B. Third-party apps change often; test every new Focus Wall build on your own device.
+> **Status:** v1.4.0 Play beta · targets Android 16 (API 36) and is tested on Android 16 / Samsung SM-S711B. Third-party apps change often; test every new Focus Wall build on your own device.
 
 ## See it work
 
@@ -55,11 +55,11 @@ Focus Wall is built around one constraint: it should never become more invasive 
 
 - **Local-first state.** The daily timer and settings are stored in the app’s private Android preferences. Android backup and device-transfer extraction are disabled.
 - **No social-media credentials.** Focus Wall does not read, store, or submit Instagram or YouTube passwords, messages, media, or account data.
-- **No advertising or analytics.** There are no ad or analytics SDKs in the app.
-- **Optional Google identity.** Google sign-in is opt-in and currently provides identity only; cloud backup is not implemented. The blocker works completely without an account.
+- **No accounts, network, advertising, or analytics.** The app requests no Internet permission and contains no account, ad, analytics, Firebase, or crash-reporting SDK.
+- **Explicit consent.** The Accessibility service remains inert until the current in-app disclosure is affirmatively accepted. Consent can be withdrawn at any time.
 - **Small Android surface.** The accessibility service and limit activity are non-exported; the launcher is the only public component.
 
-Read the full [security policy](SECURITY.md) before distributing a build.
+Read the [privacy policy](https://abhyuday007.github.io/focus-wall/privacy.html) and full [security policy](SECURITY.md) before distributing a build.
 
 ## Build
 
@@ -70,20 +70,7 @@ cd focus-wall
 ./gradlew :app:installDebug
 ```
 
-Enable **Focus Wall app blocker** under Android’s Accessibility settings after installing. The app needs that user-granted permission to notice the active Reels and Shorts surfaces; it does not use it to read or alter social-app content.
-
-### Optional Firebase account setup
-
-The repository intentionally excludes `app/google-services.json`, signing keys, and local Android configuration. A public clone builds and runs without them.
-
-To enable optional Google sign-in for your own Firebase project:
-
-1. Register `dev.focuswall` in Firebase.
-2. Enable Firebase Authentication → Google.
-3. Add debug and release SHA-1 certificate fingerprints.
-4. Put your project-specific `google-services.json` in `app/`.
-
-Cloud backup is deliberately not enabled yet. Do not add one without per-account security rules and an explicit data model.
+Open **Review disclosure & enable access**, read the complete disclosure, and choose whether to continue to Android Accessibility settings. The service remains inactive without affirmative consent, even if Android’s toggle was enabled by an older build.
 
 ### Signed release
 
@@ -91,7 +78,7 @@ Cloud backup is deliberately not enabled yet. Do not add one without per-account
 ./scripts/build-release.sh
 ```
 
-The release script retrieves a locally held signing password from macOS Keychain and produces a signed APK. Never commit a `.jks`, `.keystore`, `local.properties`, `google-services.json`, or signing password.
+The release script retrieves a locally held signing password from macOS Keychain and produces a signed APK and Play Store AAB. Never commit a `.jks`, `.keystore`, `local.properties`, `google-services.json`, or signing password.
 
 ## Scope
 

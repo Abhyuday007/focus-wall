@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Focus Wall</string>
-    <string name="accessibility_description">Shows a pause screen when a chosen distracting app opens.</string>
+    <string name="accessibility_description">Detects supported Instagram Reels and YouTube Shorts surfaces to measure the local daily limit and show a limit card. It does not read or collect messages, media, passwords, or screen text.</string>
 </resources>

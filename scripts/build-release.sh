@@ -8,4 +8,4 @@ KEY_PASSWORD="$(security find-generic-password -a focus-wall -s focus-wall-relea
 
 FOCUS_WALL_KEYSTORE="$KEYSTORE_PATH" \
 FOCUS_WALL_KEYSTORE_PASSWORD="$KEY_PASSWORD" \
-"$PROJECT_DIR/gradlew" -p "$PROJECT_DIR" :app:assembleRelease
+"$PROJECT_DIR/gradlew" -p "$PROJECT_DIR" :app:assembleRelease :app:bundleRelease
