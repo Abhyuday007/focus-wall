@@ -1,10 +1,10 @@
 # Play Store beta submission
 
-This folder contains the review material for Focus Wall v1.4.1. Verify every answer against the final uploaded AAB and Play Console wording before submission.
+This folder contains the review material for Focus Wall v1.5.0. Verify every answer against the final uploaded AAB and Play Console wording before submission.
 
 ## Release order
 
-1. Upload the signed `Focus-Wall-v1.4.0.aab` to Internal testing.
+1. Upload the signed `Focus-Wall-v1.5.0.aab` to Internal testing.
 2. Use `https://abhyuday007.github.io/focus-wall/privacy.html` as the privacy-policy URL.
 3. Complete App access, Ads, Content rating, Target audience, Data safety, and AccessibilityService declarations.
 4. Record the real-device disclosure video described in `accessibility-declaration.md`.

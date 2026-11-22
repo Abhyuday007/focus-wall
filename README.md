@@ -15,7 +15,7 @@
 
 </div>
 
-> **Status:** v1.4.1 Play beta · targets Android 16 (API 36) and is tested on Android 16 / Samsung SM-S711B. Third-party apps change often; test every new Focus Wall build on your own device.
+> **Status:** v1.5.0 Play beta · targets Android 16 (API 36) and is tested on Android 16 / Samsung SM-S711B. Third-party apps change often; test every new Focus Wall build on your own device.
 
 ## See it work
 

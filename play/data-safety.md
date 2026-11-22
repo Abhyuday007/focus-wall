@@ -1,6 +1,6 @@
 # Data safety draft
 
-## Expected declaration for v1.4.0
+## Expected declaration for v1.5.0
 
 - Data collected: No.
 - Data shared: No.
