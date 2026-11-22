@@ -9,7 +9,7 @@
 [![Platform](https://img.shields.io/badge/platform-Android%2010%2B-3DDC84?style=flat-square&logo=android&logoColor=white)](#build)
 [![Language](https://img.shields.io/badge/language-Java-007396?style=flat-square&logo=openjdk&logoColor=white)](#build)
 [![Privacy](https://img.shields.io/badge/privacy-local--first-1B7F67?style=flat-square&logo=shield&logoColor=white)](#privacy--security)
-[![Demo](https://img.shields.io/badge/demo-18%20seconds-74D7BB?style=flat-square&logo=play&logoColor=white)](#see-it-work)
+[![Demo](https://img.shields.io/badge/demo-19%20seconds-03D26F?style=flat-square&logo=play&logoColor=white)](#see-it-work)
 
 [See it work](#see-it-work) · [What it protects](#what-focus-wall-changes) · [Build it](#build) · [Security](SECURITY.md)
 
@@ -21,7 +21,15 @@
 
 [![Watch the Focus Wall guide](docs/media/focus-wall-guide-poster.jpg)](docs/media/focus-wall-guide.mp4)
 
-*An 18-second, privacy-safe product guide. It contains only Focus Wall screens—no messages, account picker, social feed, or personal media.*
+*A 19-second real-device guide recorded from v1.5.0. It contains only Focus Wall screens—no messages, account picker, social feed, or personal media.*
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/media/focus-wall-v150-setup.jpg" width="260" alt="Guided shield setup"><br><sub><b>Guided setup</b><br>Protection status is clear from launch.</sub></td>
+    <td align="center"><img src="docs/media/focus-wall-v150-dashboard.jpg" width="260" alt="Focus Wall control center"><br><sub><b>Control center</b><br>Live budget and active app shields.</sub></td>
+    <td align="center"><img src="docs/media/focus-wall-v150-controls.jpg" width="260" alt="Daily and recurring budget controls"><br><sub><b>Intentional controls</b><br>Today stays locked; future days repeat.</sub></td>
+  </tr>
+</table>
 
 ## The promise
 
@@ -71,7 +79,7 @@ cd focus-wall
 ./gradlew :app:installDebug
 ```
 
-Open **Review disclosure & enable access**, read the complete disclosure, and choose whether to continue to Android Accessibility settings. The service remains inactive without affirmative consent, even if Android’s toggle was enabled by an older build.
+Open Focus Wall and follow the startup shield guide. Read the complete disclosure, then choose whether to continue to Android Accessibility settings. The service remains inactive without affirmative consent, even if Android’s toggle was enabled by an older build.
 
 ### Signed release
 
