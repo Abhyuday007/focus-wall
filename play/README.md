@@ -1,6 +1,6 @@
 # Play Store beta submission
 
-This folder contains the review material for Focus Wall v1.4.0. Verify every answer against the final uploaded AAB and Play Console wording before submission.
+This folder contains the review material for Focus Wall v1.4.1. Verify every answer against the final uploaded AAB and Play Console wording before submission.
 
 ## Release order
 

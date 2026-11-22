@@ -62,12 +62,12 @@ public class OnboardingActivity extends Activity {
 
     private void limit() {
         TextView value = title(minutes + " minutes"); page.addView(value); page.addView(gap(8)); page.addView(copy("per day for Reels and Shorts")); page.addView(gap(26));
-        SeekBar seek = new SeekBar(this); seek.setMax(6); seek.setProgress(minutes / 10); seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() { public void onProgressChanged(SeekBar bar, int progress, boolean fromUser) { minutes = progress * 10; value.setText(minutes + " minutes"); } public void onStartTrackingTouch(SeekBar bar) {} public void onStopTrackingTouch(SeekBar bar) {} }); page.addView(seek); page.addView(gap(18)); page.addView(copy("0 minutes is valid. Your choice locks for today only after you commit it.")); page.addView(gap(28)); Button next = action("Continue"); next.setOnClickListener(v -> next()); page.addView(next); back();
+        SeekBar seek = new SeekBar(this); seek.setMax(6); seek.setProgress(minutes / 10); seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() { public void onProgressChanged(SeekBar bar, int progress, boolean fromUser) { minutes = progress * 10; value.setText(minutes + " minutes"); } public void onStartTrackingTouch(SeekBar bar) {} public void onStopTrackingTouch(SeekBar bar) {} }); page.addView(seek); page.addView(gap(18)); page.addView(copy("0 minutes is valid. After you commit, this limit auto-arms every day. You can schedule a different future limit without adding time today.")); page.addView(gap(28)); Button next = action("Continue"); next.setOnClickListener(v -> next()); page.addView(next); back();
     }
 
     private void commit() {
         page.addView(title(preview ? "That’s the flow." : "Lock it in.")); page.addView(gap(12));
-        page.addView(copy(preview ? "Nothing will change in preview mode. On a new setup, a one-second hold makes the daily boundary intentional." : "Hold for one second to make today’s " + minutes + " minute boundary real. It stays editable again tomorrow.")); page.addView(gap(32));
+        page.addView(copy(preview ? "Nothing will change in preview mode. On a new setup, a one-second hold makes the daily boundary intentional." : "Hold for one second to make today’s " + minutes + " minute boundary real. It repeats automatically each day until you schedule another limit.")); page.addView(gap(32));
         Button hold = action(preview ? "Return without changing anything" : "Press and hold to commit");
         if (preview) hold.setOnClickListener(v -> finish());
         else hold.setOnTouchListener((v, event) -> { if (event.getAction() == MotionEvent.ACTION_DOWN) { hold.setText("Keep holding…"); handler.postDelayed(commit, 1000); return true; } if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) { handler.removeCallbacks(commit); hold.setText("Press and hold to commit"); return true; } return true; });

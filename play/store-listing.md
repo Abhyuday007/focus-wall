@@ -12,7 +12,7 @@ Set a daily boundary for Reels and Shorts while keeping useful social features.
 
 Focus Wall helps you stay connected without falling into endless short-video feeds.
 
-Choose a daily budget from 0 to 60 minutes. Focus Wall measures time only when it confidently detects supported Instagram Reels or YouTube Shorts surfaces. Instagram Home, DMs, Stories, notifications, posts, profiles, and search remain available. YouTube Home, search, subscriptions, and regular videos remain available.
+Choose a daily budget from 0 to 60 minutes. It auto-arms at midnight and repeats until you schedule a different future limit; changing tomorrow’s limit never adds time today. Focus Wall measures time only when it confidently detects supported Instagram Reels or YouTube Shorts surfaces. Instagram Home, DMs, Stories, notifications, posts, profiles, and search remain available. YouTube Home, search, subscriptions, and regular videos remain available.
 
 Focus Wall is local-first:
 

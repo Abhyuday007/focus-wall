@@ -15,7 +15,7 @@
 
 </div>
 
-> **Status:** v1.4.0 Play beta · targets Android 16 (API 36) and is tested on Android 16 / Samsung SM-S711B. Third-party apps change often; test every new Focus Wall build on your own device.
+> **Status:** v1.4.1 Play beta · targets Android 16 (API 36) and is tested on Android 16 / Samsung SM-S711B. Third-party apps change often; test every new Focus Wall build on your own device.
 
 ## See it work
 
@@ -48,6 +48,7 @@ Instagram / YouTube
 - **Shared content remains useful:** a Reel opened from a DM or Story can be viewed; advancing into the endless feed is held back when the daily budget is gone.
 - **Intentional setup:** onboarding asks who the boundary is for, what they want more of, and uses a press-and-hold commitment before arming a daily limit.
 - **0-minute mode:** choose zero when you want no Reels or Shorts feed that day while keeping the rest of your social apps usable.
+- **Automatic rollover:** the scheduled limit auto-arms at midnight and repeats daily. Changing a future limit never adds time to the current day.
 
 ## Privacy & security
 
