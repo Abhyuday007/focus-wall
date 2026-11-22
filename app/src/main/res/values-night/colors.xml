@@ -1,11 +1,17 @@
 <resources>
-    <color name="ink">#F1FBF8</color>
-    <color name="paper">#091816</color>
-    <color name="surface">#102724</color>
-    <color name="surface_tint">#173A34</color>
-    <color name="mint">#8DE9D5</color>
-    <color name="mint_deep">#65C9B4</color>
-    <color name="on_mint">#06201B</color>
-    <color name="secondary_surface">#1A4039</color>
-    <color name="secondary_ink">#B9F5E7</color>
+    <color name="ink">#D9E1E2</color>
+    <color name="paper">#1C1F2A</color>
+    <color name="surface">#29323B</color>
+    <color name="hero_surface">#242C35</color>
+    <color name="surface_tint">#323E48</color>
+    <color name="mint">#03D26F</color>
+    <color name="mint_deep">#02A95B</color>
+    <color name="on_mint">#102219</color>
+    <color name="muted">#8D9EBC</color>
+    <color name="border">#3C4955</color>
+    <color name="ring_track">#3A4651</color>
+    <color name="accent_wash">#183C2D</color>
+    <color name="secondary_surface">#323E48</color>
+    <color name="secondary_ink">#D9E1E2</color>
+    <color name="nav_surface">#252D36</color>
 </resources>
