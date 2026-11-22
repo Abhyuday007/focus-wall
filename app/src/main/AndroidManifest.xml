@@ -13,6 +13,7 @@
         android:fullBackupContent="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:usesCleartextTraffic="false">
+        <activity android:name=".ProtectionSetupActivity" android:exported="false" />
         <activity android:name=".PrivacyPolicyActivity" android:exported="false" />
         <activity android:name=".AccessibilityDisclosureActivity" android:exported="false" />
         <activity android:name=".DetectionStatusActivity" android:exported="false" />

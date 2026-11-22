@@ -28,6 +28,7 @@ public class MainActivity extends android.app.Activity {
     private SeekBar slider;
     private SeekBar scheduledSlider;
     private Button start;
+    private boolean startupGuideShown;
     private final Handler handler = new Handler();
     private final Runnable refresh = new Runnable() {
         @Override public void run() { renderState(); handler.postDelayed(this, 1_000); }
@@ -169,7 +170,14 @@ public class MainActivity extends android.app.Activity {
         setContentView(scroll);
     }
 
-    @Override protected void onResume() { super.onResume(); handler.post(refresh); }
+    @Override protected void onResume() {
+        super.onResume();
+        handler.post(refresh);
+        if (!startupGuideShown && (!DisclosureConsent.isGranted(this) || !isAccessibilityEnabled())) {
+            startupGuideShown = true;
+            startActivity(new Intent(this, ProtectionSetupActivity.class));
+        }
+    }
     @Override protected void onPause() { super.onPause(); handler.removeCallbacks(refresh); }
 
     private void renderState() {
