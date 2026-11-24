@@ -10,12 +10,13 @@
 [![Language](https://img.shields.io/badge/language-Java-007396?style=flat-square&logo=openjdk&logoColor=white)](#build)
 [![Privacy](https://img.shields.io/badge/privacy-local--first-1B7F67?style=flat-square&logo=shield&logoColor=white)](#privacy--security)
 [![Demo](https://img.shields.io/badge/demo-19%20seconds-03D26F?style=flat-square&logo=play&logoColor=white)](#see-it-work)
+[![Beta](https://img.shields.io/badge/beta-apply-7057FF?style=flat-square&logo=googleforms&logoColor=white)](https://docs.google.com/forms/d/e/1FAIpQLSflebBND8uDGJ_sQSNR-npJeYA5YrmJO1M_l9lMeQSbmZxuAQ/viewform?usp=dialog)
 
-[See it work](#see-it-work) · [What it protects](#what-focus-wall-changes) · [Build it](#build) · [Security](SECURITY.md)
+[Apply for beta](https://docs.google.com/forms/d/e/1FAIpQLSflebBND8uDGJ_sQSNR-npJeYA5YrmJO1M_l9lMeQSbmZxuAQ/viewform?usp=dialog) · [See it work](#see-it-work) · [What it protects](#what-focus-wall-changes) · [Build it](#build) · [Security](SECURITY.md)
 
 </div>
 
-> **Status:** v1.5.0 Play beta · targets Android 16 (API 36) and is tested on Android 16 / Samsung SM-S711B. Third-party apps change often; test every new Focus Wall build on your own device.
+> **Status:** v1.5.0 limited Android beta · targets Android 16 (API 36) and is tested on Android 16 / Samsung SM-S711B. [Apply to test Focus Wall](https://docs.google.com/forms/d/e/1FAIpQLSflebBND8uDGJ_sQSNR-npJeYA5YrmJO1M_l9lMeQSbmZxuAQ/viewform?usp=dialog). Third-party apps change often; test every new Focus Wall build on your own device.
 
 ## See it work
 

@@ -1,0 +1,14 @@
+{
+  "title": "Focus Wall — Stay connected. Scroll with intention.",
+  "format": "1080x1350, 30 fps, caption-first, approximately 36 seconds",
+  "audience": "LinkedIn developers, students, recruiters, and people fighting doomscrolling",
+  "scenes": [
+    {"time": "0–5s", "purpose": "Hook", "copy": "You opened Instagram for one message."},
+    {"time": "5–10s", "purpose": "Problem", "copy": "20 minutes later. Still scrolling."},
+    {"time": "10–15s", "purpose": "Reframe", "copy": "Keep the people. Remove the trap."},
+    {"time": "15–22s", "purpose": "Product proof", "copy": "Choose a daily limit. Count only actual short-form viewing."},
+    {"time": "22–28s", "purpose": "Boundary behavior", "copy": "The feed stops. Your connections don't."},
+    {"time": "28–33s", "purpose": "Trust and engineering", "copy": "No ads. No Instagram login. No cloud tracking."},
+    {"time": "33–36s", "purpose": "CTA", "copy": "Stay connected. Scroll with intention. View on GitHub."}
+  ]
+}
