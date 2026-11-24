@@ -11,6 +11,7 @@ import android.view.View;
 import android.window.OnBackInvokedCallback;
 import android.window.OnBackInvokedDispatcher;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,24 +32,25 @@ public class ReelsLimitActivity extends Activity {
         }
         LinearLayout page = new LinearLayout(this); page.setOrientation(LinearLayout.VERTICAL); page.setGravity(Gravity.CENTER); page.setPadding(dp(28), dp(28), dp(28), dp(28)); page.setBackgroundColor(getColor(R.color.paper));
         LinearLayout card = new LinearLayout(this); card.setOrientation(LinearLayout.VERTICAL); card.setPadding(dp(24), dp(26), dp(24), dp(24));
-        GradientDrawable panel = new GradientDrawable(GradientDrawable.Orientation.TL_BR, new int[]{getColor(R.color.surface), getColor(R.color.surface_tint)}); panel.setCornerRadius(dp(28)); card.setBackground(panel);
-        TextView eyebrow = text("FOCUS WALL", 12, getColor(R.color.mint)); eyebrow.setLetterSpacing(.13f);
+        GradientDrawable panel = new GradientDrawable(); panel.setColor(getColor(R.color.hero_surface)); panel.setCornerRadius(dp(28)); card.setBackground(panel);
+        ImageView mark = new ImageView(this); mark.setImageResource(R.drawable.focus_wall_icon_foreground); mark.setContentDescription("Focus Wall");
+        TextView eyebrow = text("FOCUS WALL  ·  WALL UP", 12, getColor(R.color.ink)); eyebrow.setLetterSpacing(.11f);
         String headingText = sharedReel
-                ? "That shared Reel was your one view."
+                ? "That was the Reel you came for."
                 : youtubeShorts
-                ? "Your daily Shorts budget is over."
-                : "Your " + DailyBudget.minutes(this) + " minutes of daily reels are over.";
+                ? "Shorts are behind the wall."
+                : "Reels are behind the wall.";
         String messageText = sharedReel
-                ? "You can still use Stories, DMs, notifications, posts, and the rest of Instagram. The next Reel is intentionally held back."
+                ? "The next Reel is intentionally held back. Stories, DMs, notifications, posts, and the rest of Instagram stay open."
                 : youtubeShorts
-                ? "YouTube Home, Search, subscriptions, and regular videos are still open."
-                : "Stories, DMs, notifications, posts, and story creation are still open. Thank you for protecting your attention.";
+                ? "Today’s Shorts time is complete. YouTube Home, Search, subscriptions, and regular videos stay open."
+                : "Your " + DailyBudget.minutes(this) + " minutes are complete. Stories, DMs, notifications, posts, and story creation stay open.";
         TextView heading = text(headingText, 28, getColor(R.color.ink));
         TextView message = text(messageText, 16, getColor(R.color.ink));
-        Button close = new Button(this); close.setText(LimitExitPolicy.buttonLabel(youtubeShorts)); close.setAllCaps(false); close.setTextSize(16); close.setTextColor(getColor(R.color.on_mint)); GradientDrawable button = new GradientDrawable(); button.setColor(getColor(R.color.mint_deep)); button.setCornerRadius(dp(18)); close.setBackground(button); close.setOnClickListener(v -> returnToSafeSurface());
-        card.addView(eyebrow); card.addView(gap(12)); card.addView(heading); card.addView(gap(14)); card.addView(message); card.addView(gap(22));
+        Button close = new Button(this); close.setText(LimitExitPolicy.buttonLabel(youtubeShorts)); close.setAllCaps(false); close.setTextSize(16); close.setTextColor(getColor(R.color.brand_button_text)); GradientDrawable button = new GradientDrawable(); button.setColor(getColor(R.color.brand_button)); button.setCornerRadius(dp(18)); close.setBackground(button); close.setOnClickListener(v -> returnToSafeSurface());
+        card.addView(mark, new LinearLayout.LayoutParams(dp(64), dp(64))); card.addView(gap(10)); card.addView(eyebrow); card.addView(gap(12)); card.addView(heading); card.addView(gap(14)); card.addView(message); card.addView(gap(22));
         if (!youtubeShorts) {
-            Button search = new Button(this); search.setText("Search people"); search.setAllCaps(false); search.setTextSize(16); search.setTextColor(getColor(R.color.ink)); GradientDrawable searchButton = new GradientDrawable(); searchButton.setColor(getColor(R.color.surface)); searchButton.setStroke(dp(1), getColor(R.color.mint)); searchButton.setCornerRadius(dp(18)); search.setBackground(searchButton); search.setOnClickListener(v -> openInstagramSearch());
+            Button search = new Button(this); search.setText("Search people"); search.setAllCaps(false); search.setTextSize(16); search.setTextColor(getColor(R.color.ink)); GradientDrawable searchButton = new GradientDrawable(); searchButton.setColor(getColor(R.color.surface)); searchButton.setStroke(dp(1), getColor(R.color.ink)); searchButton.setCornerRadius(dp(18)); search.setBackground(searchButton); search.setOnClickListener(v -> openInstagramSearch());
             card.addView(search, new LinearLayout.LayoutParams(-1, dp(54)));
             card.addView(gap(10));
         }

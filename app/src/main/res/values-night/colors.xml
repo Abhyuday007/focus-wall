@@ -1,17 +1,22 @@
 <resources>
-    <color name="ink">#D9E1E2</color>
-    <color name="paper">#1C1F2A</color>
-    <color name="surface">#29323B</color>
-    <color name="hero_surface">#242C35</color>
-    <color name="surface_tint">#323E48</color>
-    <color name="mint">#03D26F</color>
-    <color name="mint_deep">#02A95B</color>
-    <color name="on_mint">#102219</color>
-    <color name="muted">#8D9EBC</color>
-    <color name="border">#3C4955</color>
-    <color name="ring_track">#3A4651</color>
-    <color name="accent_wash">#183C2D</color>
-    <color name="secondary_surface">#323E48</color>
-    <color name="secondary_ink">#D9E1E2</color>
-    <color name="nav_surface">#252D36</color>
+    <color name="ink">#F8F0E4</color>
+    <color name="paper">#11120F</color>
+    <color name="surface">#1D1E1A</color>
+    <color name="hero_surface">#F36B38</color>
+    <color name="surface_tint">#292A25</color>
+    <color name="mint">#FF7A47</color>
+    <color name="mint_deep">#151512</color>
+    <color name="on_mint">#FFF8ED</color>
+    <color name="muted">#B9B0A3</color>
+    <color name="border">#3B3932</color>
+    <color name="ring_track">#CB4B22</color>
+    <color name="accent_wash">#40261B</color>
+    <color name="secondary_surface">#2A2B26</color>
+    <color name="secondary_ink">#F8F0E4</color>
+    <color name="nav_surface">#080906</color>
+    <color name="brand_orange">#F36B38</color>
+    <color name="brand_button">#080906</color>
+    <color name="brand_button_text">#FFF8ED</color>
+    <color name="safe">#4BC99A</color>
+    <color name="safe_wash">#193A2E</color>
 </resources>

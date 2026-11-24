@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
@@ -51,10 +52,13 @@ public class MainActivity extends android.app.Activity {
 
         LinearLayout header = new LinearLayout(this);
         header.setGravity(Gravity.CENTER_VERTICAL);
+        LinearLayout.LayoutParams markParams = new LinearLayout.LayoutParams(dp(54), dp(54));
+        markParams.setMarginEnd(dp(14));
+        header.addView(brandMark(), markParams);
         LinearLayout greeting = column();
         greeting.addView(label("FOCUS WALL"));
         greeting.addView(gap(5));
-        greeting.addView(title("Your quiet control center", 26));
+        greeting.addView(title("Keep the people.\nRemove the trap.", 26));
         header.addView(greeting, new LinearLayout.LayoutParams(0, -2, 1));
         protectionBadge = pill("CHECKING");
         header.addView(protectionBadge);
@@ -64,8 +68,10 @@ public class MainActivity extends android.app.Activity {
         LinearLayout hero = card(true);
         LinearLayout heroTop = new LinearLayout(this);
         heroTop.setGravity(Gravity.CENTER_VERTICAL);
-        heroTop.addView(label("TODAY'S SHORT-FORM BUDGET"), new LinearLayout.LayoutParams(0, -2, 1));
-        heroTop.addView(pill("TIME"));
+        TextView heroLabel = label("TODAY'S WALL");
+        heroLabel.setTextColor(getColor(R.color.ink));
+        heroTop.addView(heroLabel, new LinearLayout.LayoutParams(0, -2, 1));
+        heroTop.addView(heroPill("LIVE"));
         hero.addView(heroTop);
         hero.addView(gap(4));
         quotaRing = new QuotaRingView(this);
@@ -74,12 +80,12 @@ public class MainActivity extends android.app.Activity {
         hero.addView(quotaRing, ringParams);
         status = copy("");
         status.setGravity(Gravity.CENTER);
-        status.setTextColor(getColor(R.color.muted));
+        status.setTextColor(getColor(R.color.ink));
         hero.addView(status);
         page.addView(hero);
         page.addView(gap(20));
 
-        sectionHeader(page, "ACTIVE SHIELDS", "Only short-form surfaces use the timer");
+        sectionHeader(page, "WHAT STAYS OPEN", "The people stay. Only the endless feed meets the wall.");
         page.addView(gap(11));
         page.addView(shieldCard("IG", "Instagram Reels", "Home, Stories and DMs stay open", true));
         page.addView(gap(10));
@@ -126,7 +132,7 @@ public class MainActivity extends android.app.Activity {
         page.addView(schedule);
         page.addView(gap(16));
 
-        start = action("Arm today's boundary");
+        start = action("Build today's wall");
         start.setOnClickListener(v -> { DailyBudget.start(this); renderState(); });
         page.addView(start);
         page.addView(gap(10));
@@ -191,8 +197,11 @@ public class MainActivity extends android.app.Activity {
         budgetLabel.setText(minutes + " minutes today");
         scheduledBudgetLabel.setText(scheduledMinutes + " minutes daily");
         quotaRing.setQuota(remaining, minutes * 60_000L);
-        instagramUsage.setText(armed ? "Protected · timer ready" : "Waiting for commitment");
-        youtubeUsage.setText(armed ? "Protected · timer ready" : "Waiting for commitment");
+        String usageState = !enabled
+                ? "Waiting for protection access"
+                : armed ? "Protected · timer ready" : "Waiting for commitment";
+        instagramUsage.setText(usageState);
+        youtubeUsage.setText(usageState);
 
         slider.setEnabled(!armed);
         slider.setAlpha(armed ? .38f : 1f);
@@ -200,7 +209,7 @@ public class MainActivity extends android.app.Activity {
         scheduledSlider.setProgress(scheduledMinutes / 10);
         start.setEnabled(!armed);
         start.setAlpha(armed ? .48f : 1f);
-        start.setText(armed ? "Today's boundary is locked" : "Arm today's boundary");
+        start.setText(armed ? "Today's wall is built" : "Build today's wall");
 
         if (!consented) {
             protectionBadge.setText("SETUP NEEDED");
@@ -209,7 +218,7 @@ public class MainActivity extends android.app.Activity {
             protectionBadge.setText("ACCESS OFF");
             status.setText("Permission saved · enable Accessibility protection.");
         } else if (armed) {
-            protectionBadge.setText("SHIELDS ON");
+            protectionBadge.setText("WALL UP");
             status.setText("Counting only while a supported Reel or Short is visible.");
         } else {
             protectionBadge.setText("READY");
@@ -226,9 +235,9 @@ public class MainActivity extends android.app.Activity {
         icon.setText(mark);
         icon.setTextSize(13);
         icon.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-        icon.setTextColor(getColor(R.color.on_mint));
+        icon.setTextColor(getColor(R.color.brand_button_text));
         icon.setGravity(Gravity.CENTER);
-        icon.setBackground(roundRect(getColor(R.color.mint_deep), dp(14), 0, 0));
+        icon.setBackground(roundRect(getColor(R.color.brand_button), dp(14), 0, 0));
         row.addView(icon, new LinearLayout.LayoutParams(dp(46), dp(46)));
         LinearLayout words = column();
         words.setPadding(dp(13), 0, dp(8), 0);
@@ -238,12 +247,12 @@ public class MainActivity extends android.app.Activity {
         words.addView(detailView);
         TextView usage = helper("");
         usage.setTextSize(12);
-        usage.setTextColor(getColor(R.color.mint));
+        usage.setTextColor(getColor(R.color.safe));
         words.addView(usage);
         if (instagram) instagramUsage = usage; else youtubeUsage = usage;
         row.addView(words, new LinearLayout.LayoutParams(0, -2, 1));
         TextView active = new TextView(this);
-        active.setBackground(roundRect(getColor(R.color.mint), dp(7), 0, 0));
+        active.setBackground(roundRect(getColor(R.color.safe), dp(7), 0, 0));
         row.addView(active, new LinearLayout.LayoutParams(dp(14), dp(14)));
         return row;
     }
@@ -258,8 +267,8 @@ public class MainActivity extends android.app.Activity {
     private SeekBar budgetSlider() {
         SeekBar seekBar = new SeekBar(this);
         seekBar.setMax(6);
-        seekBar.setProgressTintList(ColorStateList.valueOf(getColor(R.color.mint)));
-        seekBar.setThumbTintList(ColorStateList.valueOf(getColor(R.color.mint)));
+        seekBar.setProgressTintList(ColorStateList.valueOf(getColor(R.color.brand_orange)));
+        seekBar.setThumbTintList(ColorStateList.valueOf(getColor(R.color.brand_orange)));
         return seekBar;
     }
 
@@ -281,7 +290,7 @@ public class MainActivity extends android.app.Activity {
         return card;
     }
 
-    private Button action(String value) { return button(value, getColor(R.color.mint), getColor(R.color.on_mint), 56); }
+    private Button action(String value) { return button(value, getColor(R.color.brand_button), getColor(R.color.brand_button_text), 56); }
     private Button secondary(String value) { return button(value, getColor(R.color.secondary_surface), getColor(R.color.secondary_ink), 54); }
     private Button compactButton(String value) { return button(value, getColor(R.color.secondary_surface), getColor(R.color.secondary_ink), 46); }
     private Button navButton(String value) { return button(value, getColor(R.color.nav_surface), getColor(R.color.secondary_ink), 44); }
@@ -306,10 +315,17 @@ public class MainActivity extends android.app.Activity {
         view.setTextSize(10);
         view.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         view.setLetterSpacing(.08f);
-        view.setTextColor(getColor(R.color.mint));
+        view.setTextColor(getColor(R.color.brand_orange));
         view.setGravity(Gravity.CENTER);
         view.setPadding(dp(10), dp(6), dp(10), dp(6));
         view.setBackground(roundRect(getColor(R.color.accent_wash), dp(14), 0, 0));
+        return view;
+    }
+
+    private TextView heroPill(String value) {
+        TextView view = pill(value);
+        view.setTextColor(getColor(R.color.brand_button_text));
+        view.setBackground(roundRect(getColor(R.color.brand_button), dp(14), 0, 0));
         return view;
     }
 
@@ -318,14 +334,14 @@ public class MainActivity extends android.app.Activity {
         view.setTextSize(11);
         view.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         view.setLetterSpacing(.12f);
-        view.setTextColor(getColor(R.color.mint));
+        view.setTextColor(getColor(R.color.brand_orange));
         return view;
     }
 
     private TextView title(String value, int size) {
         TextView view = copy(value);
         view.setTextSize(size);
-        view.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
+        view.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD));
         view.setTextColor(getColor(R.color.ink));
         return view;
     }
@@ -352,6 +368,14 @@ public class MainActivity extends android.app.Activity {
         background.setCornerRadius(radius);
         if (strokeWidth > 0) background.setStroke(strokeWidth, strokeColor);
         return background;
+    }
+
+    private ImageView brandMark() {
+        ImageView mark = new ImageView(this);
+        mark.setImageResource(R.drawable.focus_wall_icon_foreground);
+        mark.setBackground(roundRect(getColor(R.color.brand_orange), dp(18), 0, 0));
+        mark.setContentDescription("Focus Wall");
+        return mark;
     }
 
     private View gap(int value) {

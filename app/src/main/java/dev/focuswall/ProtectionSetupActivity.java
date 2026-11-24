@@ -9,6 +9,7 @@ import android.provider.Settings;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -26,13 +27,15 @@ public final class ProtectionSetupActivity extends android.app.Activity {
         page.setBackgroundColor(getColor(R.color.paper));
         scroll.addView(page);
 
-        TextView eyebrow = text("SHIELD SETUP  ·  ABOUT 1 MINUTE", 11, getColor(R.color.mint));
+        page.addView(brandHeader());
+        page.addView(gap(18));
+        TextView eyebrow = text("BUILD YOUR WALL  ·  ABOUT 1 MINUTE", 11, getColor(R.color.brand_orange));
         eyebrow.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         eyebrow.setLetterSpacing(.11f);
         page.addView(eyebrow);
         page.addView(gap(18));
-        TextView heading = text(consented ? "One step left." : "Turn on your shield.", 34, getColor(R.color.ink));
-        heading.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        TextView heading = text(consented ? "One step left." : "Keep the people.\nRemove the trap.", 34, getColor(R.color.ink));
+        heading.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD));
         page.addView(heading);
         page.addView(gap(10));
         page.addView(copy(consented
@@ -75,10 +78,10 @@ public final class ProtectionSetupActivity extends android.app.Activity {
         row.setPadding(dp(15), dp(15), dp(15), dp(15));
         row.setBackground(roundRect(getColor(R.color.surface), dp(21), dp(1), getColor(R.color.border)));
 
-        TextView marker = text(complete ? "✓" : number, 15, getColor(complete ? R.color.on_mint : R.color.mint));
+        TextView marker = text(complete ? "✓" : number, 15, getColor(complete ? R.color.brand_button_text : R.color.brand_orange));
         marker.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         marker.setGravity(Gravity.CENTER);
-        marker.setBackground(roundRect(getColor(complete ? R.color.mint : R.color.accent_wash), dp(16), 0, 0));
+        marker.setBackground(roundRect(getColor(complete ? R.color.safe : R.color.accent_wash), dp(16), 0, 0));
         row.addView(marker, new LinearLayout.LayoutParams(dp(38), dp(38)));
 
         LinearLayout words = column();
@@ -96,7 +99,7 @@ public final class ProtectionSetupActivity extends android.app.Activity {
         return enabled != null && enabled.contains(new ComponentName(this, FocusAccessibilityService.class).flattenToString());
     }
 
-    private Button action(String value) { return button(value, getColor(R.color.mint), getColor(R.color.on_mint)); }
+    private Button action(String value) { return button(value, getColor(R.color.brand_button), getColor(R.color.brand_button_text)); }
     private Button secondary(String value) { return button(value, getColor(R.color.secondary_surface), getColor(R.color.secondary_ink)); }
 
     private Button button(String value, int background, int foreground) {
@@ -116,6 +119,22 @@ public final class ProtectionSetupActivity extends android.app.Activity {
         LinearLayout view = new LinearLayout(this);
         view.setOrientation(LinearLayout.VERTICAL);
         return view;
+    }
+
+    private LinearLayout brandHeader() {
+        LinearLayout row = new LinearLayout(this);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        ImageView mark = new ImageView(this);
+        mark.setImageResource(R.drawable.focus_wall_icon_foreground);
+        mark.setBackground(roundRect(getColor(R.color.brand_orange), dp(16), 0, 0));
+        mark.setContentDescription("Focus Wall");
+        row.addView(mark, new LinearLayout.LayoutParams(dp(50), dp(50)));
+        TextView name = text("FOCUS WALL", 14, getColor(R.color.ink));
+        name.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        name.setLetterSpacing(.08f);
+        name.setPadding(dp(13), 0, 0, 0);
+        row.addView(name);
+        return row;
     }
 
     private TextView copy(String value) { return text(value, 16, getColor(R.color.muted)); }

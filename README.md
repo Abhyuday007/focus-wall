@@ -9,28 +9,36 @@
 [![Platform](https://img.shields.io/badge/platform-Android%2010%2B-3DDC84?style=flat-square&logo=android&logoColor=white)](#build)
 [![Language](https://img.shields.io/badge/language-Java-007396?style=flat-square&logo=openjdk&logoColor=white)](#build)
 [![Privacy](https://img.shields.io/badge/privacy-local--first-1B7F67?style=flat-square&logo=shield&logoColor=white)](#privacy--security)
-[![Demo](https://img.shields.io/badge/demo-19%20seconds-03D26F?style=flat-square&logo=play&logoColor=white)](#see-it-work)
+[![Demo](https://img.shields.io/badge/demo-19%20seconds-F36B38?style=flat-square&logo=play&logoColor=white)](#see-the-redesign)
 [![Beta](https://img.shields.io/badge/beta-apply-7057FF?style=flat-square&logo=googleforms&logoColor=white)](https://docs.google.com/forms/d/e/1FAIpQLSflebBND8uDGJ_sQSNR-npJeYA5YrmJO1M_l9lMeQSbmZxuAQ/viewform?usp=dialog)
 
-[Apply for beta](https://docs.google.com/forms/d/e/1FAIpQLSflebBND8uDGJ_sQSNR-npJeYA5YrmJO1M_l9lMeQSbmZxuAQ/viewform?usp=dialog) · [See it work](#see-it-work) · [What it protects](#what-focus-wall-changes) · [Build it](#build) · [Security](SECURITY.md)
+[Apply for beta](https://docs.google.com/forms/d/e/1FAIpQLSflebBND8uDGJ_sQSNR-npJeYA5YrmJO1M_l9lMeQSbmZxuAQ/viewform?usp=dialog) · [See the redesign](#see-the-redesign) · [What it protects](#what-focus-wall-changes) · [Build it](#build) · [Security](SECURITY.md)
 
 </div>
 
 > **Status:** v1.5.0 limited Android beta · targets Android 16 (API 36) and is tested on Android 16 / Samsung SM-S711B. [Apply to test Focus Wall](https://docs.google.com/forms/d/e/1FAIpQLSflebBND8uDGJ_sQSNR-npJeYA5YrmJO1M_l9lMeQSbmZxuAQ/viewform?usp=dialog). Third-party apps change often; test every new Focus Wall build on your own device.
 
-## See it work
+## See the redesign
 
-[![Watch the Focus Wall guide](docs/media/focus-wall-guide-poster.jpg)](docs/media/focus-wall-guide.mp4)
-
-*A 19-second real-device guide recorded from v1.5.0. It contains only Focus Wall screens—no messages, account picker, social feed, or personal media.*
+*Rendered from the current Android 16 build. The blocking and timer logic is unchanged; this update gives Focus Wall the warmer, human identity established by the campaign concept.*
 
 <table>
   <tr>
-    <td align="center"><img src="docs/media/focus-wall-v150-setup.jpg" width="260" alt="Guided shield setup"><br><sub><b>Guided setup</b><br>Protection status is clear from launch.</sub></td>
-    <td align="center"><img src="docs/media/focus-wall-v150-dashboard.jpg" width="260" alt="Focus Wall control center"><br><sub><b>Control center</b><br>Live budget and active app shields.</sub></td>
-    <td align="center"><img src="docs/media/focus-wall-v150-controls.jpg" width="260" alt="Daily and recurring budget controls"><br><sub><b>Intentional controls</b><br>Today stays locked; future days repeat.</sub></td>
+    <td align="center"><img src="docs/media/focus-wall-v150-setup.jpg" width="260" alt="Focus Wall brand-led onboarding"><br><sub><b>Build your wall</b><br>A short, human commitment flow.</sub></td>
+    <td align="center"><img src="docs/media/focus-wall-v150-dashboard.jpg" width="260" alt="Focus Wall brick timer dashboard"><br><sub><b>Today’s wall</b><br>The remaining budget becomes a living wall.</sub></td>
+    <td align="center"><img src="docs/media/focus-wall-v150-controls.jpg" width="260" alt="Focus Wall warm dark mode"><br><sub><b>Warm dark mode</b><br>The same identity without neon glare.</sub></td>
   </tr>
 </table>
+
+[![Watch the real-device behavior guide](docs/media/focus-wall-guide-poster.jpg)](docs/media/focus-wall-guide.mp4)
+
+*The 19-second real-device guide shows the established Focus Wall behavior on v1.5.0. Its screens predate the visual redesign above; the underlying protection flow is the same.*
+
+## Brand direction
+
+[![Focus Wall campaign direction](docs/media/focus-wall-brand-direction.jpg)](docs/BRAND.md)
+
+**Keep the people. Remove the trap.** The campaign concept established Focus Wall’s brick mark, warm paper and signal-orange palette, editorial typography, and people-first voice. See the [brand guide](docs/BRAND.md) before creating future promotional material.
 
 ## The promise
 
@@ -80,7 +88,7 @@ cd focus-wall
 ./gradlew :app:installDebug
 ```
 
-Open Focus Wall and follow the startup shield guide. Read the complete disclosure, then choose whether to continue to Android Accessibility settings. The service remains inactive without affirmative consent, even if Android’s toggle was enabled by an older build.
+Open Focus Wall and follow the startup wall-building guide. Read the complete disclosure, then choose whether to continue to Android Accessibility settings. The service remains inactive without affirmative consent, even if Android’s toggle was enabled by an older build.
 
 ### Signed release
 

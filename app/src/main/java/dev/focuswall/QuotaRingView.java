@@ -10,30 +10,28 @@ import android.view.animation.DecelerateInterpolator;
 
 import java.util.Locale;
 
-/** Calm, glanceable representation of today's remaining short-form budget. */
+/** Brand wall showing how much of today's short-form budget remains. */
 public final class QuotaRingView extends View {
     private final Paint track = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint progress = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint value = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint caption = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private final RectF arc = new RectF();
+    private final RectF brick = new RectF();
     private float displayedFraction;
     private long remainingMillis;
 
     public QuotaRingView(Context context) {
         super(context);
-        track.setStyle(Paint.Style.STROKE);
-        track.setStrokeCap(Paint.Cap.ROUND);
+        track.setStyle(Paint.Style.FILL);
         track.setColor(context.getColor(R.color.ring_track));
-        progress.setStyle(Paint.Style.STROKE);
-        progress.setStrokeCap(Paint.Cap.ROUND);
-        progress.setColor(context.getColor(R.color.mint));
+        progress.setStyle(Paint.Style.FILL);
+        progress.setColor(context.getColor(R.color.ink));
         value.setTextAlign(Paint.Align.CENTER);
         value.setTypeface(android.graphics.Typeface.create("sans-serif", android.graphics.Typeface.BOLD));
         value.setColor(context.getColor(R.color.ink));
         caption.setTextAlign(Paint.Align.CENTER);
         caption.setTypeface(android.graphics.Typeface.create("sans-serif", android.graphics.Typeface.NORMAL));
-        caption.setColor(context.getColor(R.color.muted));
+        caption.setColor(context.getColor(R.color.ink));
         setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_YES);
     }
 
@@ -58,21 +56,34 @@ public final class QuotaRingView extends View {
 
     @Override protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        float stroke = dp(13);
-        track.setStrokeWidth(stroke);
-        progress.setStrokeWidth(stroke);
-        float inset = stroke / 2f + dp(8);
-        arc.set(inset, inset, getWidth() - inset, getHeight() - inset);
-        canvas.drawArc(arc, -90, 360, false, track);
-        if (displayedFraction > 0) canvas.drawArc(arc, -90, 360 * displayedFraction, false, progress);
+        int rows = 4;
+        int columns = 5;
+        int totalBricks = rows * columns;
+        int filledBricks = Math.round(totalBricks * displayedFraction);
+        float gap = dp(6);
+        float side = dp(18);
+        float top = dp(22);
+        float brickHeight = dp(18);
+        float brickWidth = (getWidth() - (side * 2) - (gap * (columns - 1))) / columns;
+        float radius = dp(5);
+        int index = 0;
+        for (int row = 0; row < rows; row++) {
+            for (int column = 0; column < columns; column++) {
+                float left = side + column * (brickWidth + gap);
+                float rowTop = top + row * (brickHeight + gap);
+                brick.set(left, rowTop, left + brickWidth, rowTop + brickHeight);
+                canvas.drawRoundRect(brick, radius, radius, index < filledBricks ? progress : track);
+                index++;
+            }
+        }
 
         long seconds = remainingMillis / 1000;
         String time = String.format(Locale.US, "%d:%02d", seconds / 60, seconds % 60);
-        value.setTextSize(dp(38));
-        caption.setTextSize(dp(12));
-        float centerY = getHeight() / 2f;
-        canvas.drawText(time, getWidth() / 2f, centerY + dp(5), value);
-        canvas.drawText("MINUTES LEFT", getWidth() / 2f, centerY + dp(31), caption);
+        value.setTextSize(dp(42));
+        caption.setTextSize(dp(11));
+        float valueY = top + rows * (brickHeight + gap) + dp(52);
+        canvas.drawText(time, getWidth() / 2f, valueY, value);
+        canvas.drawText("TIME LEFT TODAY", getWidth() / 2f, valueY + dp(25), caption);
     }
 
     private void updateDescription() {

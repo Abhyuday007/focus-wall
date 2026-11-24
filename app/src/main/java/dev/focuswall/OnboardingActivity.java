@@ -3,6 +3,7 @@ package dev.focuswall;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -38,7 +40,7 @@ public class OnboardingActivity extends Activity {
 
     private void showStep() {
         page.removeAllViews();
-        page.addView(label((preview ? "SETUP PREVIEW" : "FOCUS WALL") + "  ·  " + (step + 1) + " / 5")); page.addView(gap(20));
+        page.addView(brandHeader((preview ? "SETUP PREVIEW" : "BUILD YOUR WALL") + "  ·  " + (step + 1) + " / 5")); page.addView(gap(24));
         if (step == 0) who(); else if (step == 1) intention(); else if (step == 2) insight(); else if (step == 3) limit(); else commit();
     }
 
@@ -56,7 +58,7 @@ public class OnboardingActivity extends Activity {
     }
 
     private void insight() {
-        page.addView(title("Keep " + intention + ".")); page.addView(gap(14)); page.addView(copy("Focus Wall keeps Instagram and YouTube native. Stories, DMs, posts, subscriptions, and search stay available. Only the endless Reels and Shorts feeds respect the boundary you choose.")); page.addView(gap(28));
+        page.addView(title("Keep the people.\nRemove the trap.")); page.addView(gap(14)); page.addView(copy("Keep " + intention + " without quitting the apps you use. Stories, DMs, posts, subscriptions, and search stay available. Only the endless Reels and Shorts feeds meet the wall you choose.")); page.addView(gap(28));
         Button next = action("Choose my daily limit"); next.setOnClickListener(v -> next()); page.addView(next); back();
     }
 
@@ -66,11 +68,11 @@ public class OnboardingActivity extends Activity {
     }
 
     private void commit() {
-        page.addView(title(preview ? "That’s the flow." : "Lock it in.")); page.addView(gap(12));
-        page.addView(copy(preview ? "Nothing will change in preview mode. On a new setup, a one-second hold makes the daily boundary intentional." : "Hold for one second to make today’s " + minutes + " minute boundary real. It repeats automatically each day until you schedule another limit.")); page.addView(gap(32));
-        Button hold = action(preview ? "Return without changing anything" : "Press and hold to commit");
+        page.addView(title(preview ? "That’s the flow." : "Build the wall.")); page.addView(gap(12));
+        page.addView(copy(preview ? "Nothing will change in preview mode. On a new setup, a one-second hold makes the daily boundary intentional." : "Hold for one second to build today’s " + minutes + " minute wall. It repeats automatically each day until you schedule another limit.")); page.addView(gap(32));
+        Button hold = action(preview ? "Return without changing anything" : "Press and hold to build");
         if (preview) hold.setOnClickListener(v -> finish());
-        else hold.setOnTouchListener((v, event) -> { if (event.getAction() == MotionEvent.ACTION_DOWN) { hold.setText("Keep holding…"); handler.postDelayed(commit, 1000); return true; } if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) { handler.removeCallbacks(commit); hold.setText("Press and hold to commit"); return true; } return true; });
+        else hold.setOnTouchListener((v, event) -> { if (event.getAction() == MotionEvent.ACTION_DOWN) { hold.setText("Keep holding…"); handler.postDelayed(commit, 1000); return true; } if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) { handler.removeCallbacks(commit); hold.setText("Press and hold to build"); return true; } return true; });
         page.addView(hold); back();
     }
 
@@ -80,12 +82,13 @@ public class OnboardingActivity extends Activity {
     private void next() { step++; showStep(); }
     private void back() { if (step == 0) return; Button back = secondary("Back"); back.setOnClickListener(v -> { step--; showStep(); }); page.addView(gap(10)); page.addView(back); }
     private final Runnable commit = new Runnable() { @Override public void run() { DailyBudget.setMinutes(OnboardingActivity.this, minutes); DailyBudget.start(OnboardingActivity.this); getSharedPreferences(STORE, MODE_PRIVATE).edit().putBoolean(COMPLETE, true).apply(); startActivity(new Intent(OnboardingActivity.this, MainActivity.class)); finish(); }};
-    private Button action(String text) { return button(text, getColor(R.color.mint_deep), getColor(R.color.on_mint)); }
+    private Button action(String text) { return button(text, getColor(R.color.brand_button), getColor(R.color.brand_button_text)); }
     private Button secondary(String text) { return button(text, getColor(R.color.secondary_surface), getColor(R.color.secondary_ink)); }
-    private Button button(String text, int color, int textColor) { Button button = new Button(this); button.setText(text); button.setAllCaps(false); button.setTextSize(16); button.setTextColor(textColor); button.setGravity(Gravity.CENTER); button.setLineSpacing(0, 1.15f); GradientDrawable background = new GradientDrawable(); background.setColor(color); background.setCornerRadius(dp(20)); button.setBackground(background); button.setLayoutParams(new LinearLayout.LayoutParams(-1, dp(68))); return button; }
-    private TextView label(String text) { TextView view = copy(text); view.setTextSize(12); view.setLetterSpacing(.13f); view.setTextColor(getColor(R.color.mint)); return view; }
-    private TextView title(String text) { TextView view = copy(text); view.setTextSize(36); return view; }
+    private Button button(String text, int color, int textColor) { Button button = new Button(this); button.setText(text); button.setAllCaps(false); button.setTextSize(16); button.setTypeface(Typeface.DEFAULT, Typeface.BOLD); button.setTextColor(textColor); button.setGravity(Gravity.CENTER); button.setLineSpacing(0, 1.15f); GradientDrawable background = new GradientDrawable(); background.setColor(color); background.setCornerRadius(dp(20)); button.setBackground(background); button.setLayoutParams(new LinearLayout.LayoutParams(-1, dp(68))); return button; }
+    private TextView label(String text) { TextView view = copy(text); view.setTextSize(12); view.setTypeface(Typeface.DEFAULT, Typeface.BOLD); view.setLetterSpacing(.13f); view.setTextColor(getColor(R.color.brand_orange)); return view; }
+    private TextView title(String text) { TextView view = copy(text); view.setTextSize(36); view.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD)); return view; }
     private TextView copy(String text) { TextView view = new TextView(this); view.setText(text); view.setTextSize(17); view.setTextColor(getColor(R.color.ink)); view.setLineSpacing(dp(5), 1f); return view; }
+    private LinearLayout brandHeader(String text) { LinearLayout row = new LinearLayout(this); row.setGravity(Gravity.CENTER_VERTICAL); ImageView mark = new ImageView(this); mark.setImageResource(R.drawable.focus_wall_icon_foreground); GradientDrawable background = new GradientDrawable(); background.setColor(getColor(R.color.brand_orange)); background.setCornerRadius(dp(15)); mark.setBackground(background); mark.setContentDescription("Focus Wall"); row.addView(mark, new LinearLayout.LayoutParams(dp(46), dp(46))); TextView label = label(text); label.setPadding(dp(12), 0, 0, 0); row.addView(label); return row; }
     private View gap(int size) { View view = new View(this); view.setLayoutParams(new LinearLayout.LayoutParams(1, dp(size))); return view; }
     private int dp(int value) { return (int) (value * getResources().getDisplayMetrics().density); }
 }
